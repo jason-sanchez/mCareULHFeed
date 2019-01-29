@@ -158,6 +158,12 @@ Module Module1
             objCommand.Connection = myConnection
 
             For Each dir In dirs
+
+                orphanFound = False '1/7/2019 - set to false so there is a string of orphans followed by an a31 they are not sent to orphans
+                functionError = False '1/29/2019 - Set false so other messages are not tagged this way.  Same as orphans.
+                dbError = False '1/29/2019 - Set false so other messages are not tagged this way.  Same as orphans.
+                globalError = False '1/29/2019 - Set false so other messages are not tagged this way.  Same as orphans.
+
                 thefile = New FileInfo(dir)
                 If thefile.Extension <> ".$#$" Then
                     '1.set up the streamreader to get a file
@@ -190,7 +196,7 @@ Module Module1
 
                         gblLogString = gblLogString & "Dictionary Error" & " - " & thefile.Name & vbCrLf
                         gblLogString = gblLogString & ex.Message & vbCrLf
-                        writeToLog(gblLogString, 1)
+                        writeTolog(gblLogString, 1)
                         'get rid of the file so it doesn't mess up the next run.
                         myfile.Close()
                         If thefile.Exists Then
@@ -204,7 +210,7 @@ Module Module1
                     gblLogString = ""
                     gblORIGINAL_PA_NUMBER = ""
 
-                    
+
                     gblMrnum = dictNVP.Item("mrnum")
 
                     '20180305 - Move files that do not have an observation datetime to the NO OBS Datetime Folder
